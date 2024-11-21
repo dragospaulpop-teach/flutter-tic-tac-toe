@@ -13,20 +13,26 @@ class RegisterForm extends StatelessWidget {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
     } on FirebaseAuthException catch (err) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(err.message!)));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          content: Text(err.message!,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ))));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: [
-      Form(
+        body: Center(
+      child: Form(
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
                   controller: emailController,
@@ -67,6 +73,6 @@ class RegisterForm extends StatelessWidget {
               ],
             ),
           )),
-    ]));
+    ));
   }
 }

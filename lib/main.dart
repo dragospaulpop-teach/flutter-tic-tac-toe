@@ -48,7 +48,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(navigatorKey: navigatorKey, routes: {
+    return MaterialApp(initialRoute: '/', navigatorKey: navigatorKey, routes: {
       '/': (context) => const HomeScreen(),
       '/login': (context) => SignInForm(),
       '/register': (context) => RegisterForm(),

@@ -12,8 +12,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Welcome to our app'),
+          Text('Welcome to our app',
+              style: Theme.of(context).textTheme.headlineLarge),
           TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
