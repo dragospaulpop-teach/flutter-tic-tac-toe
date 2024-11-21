@@ -1,19 +1,57 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
   SignInForm({super.key});
 
+  @override
+  State<SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
+  String emailError = '';
+  String passwordError = '';
+  String otherError = '';
+  bool isLoading = false;
+  bool passwordVisible = false;
+
   void login(BuildContext context) async {
+    setState(() {
+      emailError = '';
+      passwordError = '';
+      otherError = '';
+      isLoading = true;
+      passwordVisible = false;
+    });
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
     } on FirebaseAuthException catch (err) {
       if (!context.mounted) return;
+
+      setState(() {
+        emailError = err.code == 'invalid-email' ? err.message! : '';
+        passwordError = err.code == 'wrong-password' ? err.message! : '';
+        otherError = ['invalid-email', 'wrong-password'].contains(err.code)
+            ? ''
+            : err.message!;
+        isLoading = false;
+        _formKey.currentState!.validate();
+      });
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Theme.of(context).colorScheme.errorContainer,
           content: Text(err.message!,
@@ -32,7 +70,7 @@ class SignInForm extends StatelessWidget {
         body: Center(
           child: Card(
             elevation: 10,
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderOnForeground: true,
             margin: const EdgeInsets.all(16),
             child: Padding(
@@ -45,10 +83,19 @@ class SignInForm extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('LOGIN',
+                        Text('Authentication',
                             style: Theme.of(context).textTheme.headlineLarge),
                         const SizedBox(height: 16),
                         TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            if (emailError.isNotEmpty) {
+                              return emailError;
+                            }
+                            return null;
+                          },
                           controller: emailController,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
@@ -64,12 +111,31 @@ class SignInForm extends StatelessWidget {
                           height: 16,
                         ),
                         TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            if (passwordError.isNotEmpty) {
+                              return passwordError;
+                            }
+                            return null;
+                          },
                           controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
+                          obscureText: !passwordVisible,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisible = !passwordVisible;
+                                });
+                              },
+                              icon: Icon(passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                            ),
                             labelText: 'Password',
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(100.0),
                               ),
@@ -77,19 +143,35 @@ class SignInForm extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        ElevatedButton(
-                            onPressed: () => login(context),
-                            child: const Text("LOGIN")),
+                        otherError.isNotEmpty
+                            ? Text(otherError,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ))
+                            : const SizedBox.shrink(),
+                        ElevatedButton.icon(
+                            icon: isLoading
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator())
+                                : null,
+                            onPressed: isLoading ? null : () => login(context),
+                            label: const Text("LOGIN")),
                         const SizedBox(height: 16),
                         TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/register');
                             },
-                            child: const Text(
-                                'Don\'t have an account? Register',
+                            child: Text('Don\'t have an account? Register',
                                 style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold)))
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    decoration: TextDecoration.underline)))
                       ],
                     ),
                   )),

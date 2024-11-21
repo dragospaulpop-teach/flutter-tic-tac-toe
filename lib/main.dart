@@ -54,18 +54,28 @@ class _MainAppState extends State<MainApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.blue,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+            ),
+            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
         darkTheme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, brightness: Brightness.dark),
+              seedColor: Colors.indigo, brightness: Brightness.dark),
           brightness: Brightness.dark,
           useMaterial3: true,
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.indigo,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+            ),
+            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         initialRoute: '/',
         navigatorKey: navigatorKey,
         routes: {
