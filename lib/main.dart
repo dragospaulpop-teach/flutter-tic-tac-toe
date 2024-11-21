@@ -48,11 +48,31 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: '/', navigatorKey: navigatorKey, routes: {
-      '/': (context) => const HomeScreen(),
-      '/login': (context) => SignInForm(),
-      '/register': (context) => RegisterForm(),
-      '/game': (context) => const GameScreen(),
-    });
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.blue,
+          ),
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.red, brightness: Brightness.dark),
+          brightness: Brightness.dark,
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.red,
+          ),
+        ),
+        themeMode: ThemeMode.light,
+        initialRoute: '/',
+        navigatorKey: navigatorKey,
+        routes: {
+          '/': (context) => const HomeScreen(),
+          '/login': (context) => SignInForm(),
+          '/register': (context) => RegisterForm(),
+          '/game': (context) => const GameScreen(),
+        });
   }
 }
