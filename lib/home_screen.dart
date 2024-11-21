@@ -13,12 +13,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: Column(
         children: [
-          Text('Welcome to our app'),
+          const Text('Welcome to our app'),
           TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: Text('Go to LogIn'))
+              child: const Text('Go to LogIn'))
         ],
       ),
     );

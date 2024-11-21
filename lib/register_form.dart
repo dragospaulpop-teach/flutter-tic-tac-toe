@@ -25,7 +25,7 @@ class RegisterForm extends StatelessWidget {
       Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 TextFormField(
@@ -40,7 +40,7 @@ class RegisterForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
@@ -55,15 +55,15 @@ class RegisterForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
                     onPressed: () => register(context),
-                    child: Text("Register")),
+                    child: const Text("Register")),
                 TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
                     },
-                    child: Text('Login'))
+                    child: const Text('Login'))
               ],
             ),
           )),

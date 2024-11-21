@@ -25,7 +25,7 @@ class SignInForm extends StatelessWidget {
       Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 TextFormField(
@@ -40,7 +40,7 @@ class SignInForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
@@ -55,14 +55,15 @@ class SignInForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
-                    onPressed: () => login(context), child: Text("Login")),
+                    onPressed: () => login(context),
+                    child: const Text("Login")),
                 TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/register');
                     },
-                    child: Text('Register'))
+                    child: const Text('Register'))
               ],
             ),
           )),

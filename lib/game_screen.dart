@@ -113,7 +113,8 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       body: Column(
         children: [
-          ElevatedButton(onPressed: () => logout(), child: Text("logout")),
+          ElevatedButton(
+              onPressed: () => logout(), child: const Text("logout")),
           Text(
             "Current player : $currentPlayer",
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
