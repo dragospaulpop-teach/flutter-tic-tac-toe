@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tic_tac_toe/auth_notifier.dart';
 import 'package:tic_tac_toe/game_screen.dart';
 import 'package:tic_tac_toe/home_screen.dart';
 import 'package:tic_tac_toe/login_form.dart';
@@ -14,7 +15,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => AuthNotifier(),
+    child: const MainApp(),
+  ));
 }
 
 class MainApp extends StatefulWidget {
@@ -30,9 +34,11 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    try {
-      FirebaseAuth.instance.authStateChanges().listen((data) {
-        if (data != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+
+      authNotifier.addListener(() {
+        if (authNotifier.user != null) {
           navigatorKey!.currentState!
               .pushNamedAndRemoveUntil('/game', (route) => false);
         } else {
@@ -40,10 +46,7 @@ class _MainAppState extends State<MainApp> {
               .pushNamedAndRemoveUntil('/', (route) => false);
         }
       });
-    } catch (err) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(err.toString())));
-    }
+    });
   }
 
   @override
@@ -67,7 +70,7 @@ class _MainAppState extends State<MainApp> {
           brightness: Brightness.dark,
           useMaterial3: true,
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.red,
             titleTextStyle: TextStyle(
               color: Colors.white,
             ),
@@ -80,7 +83,7 @@ class _MainAppState extends State<MainApp> {
         navigatorKey: navigatorKey,
         routes: {
           '/': (context) => const HomeScreen(),
-          '/login': (context) => SignInForm(),
+          '/login': (context) => const SignInForm(),
           '/register': (context) => RegisterForm(),
           '/game': (context) => const GameScreen(),
         });

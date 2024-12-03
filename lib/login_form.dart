@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tic_tac_toe/auth_notifier.dart';
 
 class SignInForm extends StatefulWidget {
-  SignInForm({super.key});
+  const SignInForm({super.key});
 
   @override
   State<SignInForm> createState() => _SignInFormState();
@@ -37,8 +39,8 @@ class _SignInFormState extends State<SignInForm> {
     }
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+      await authNotifier.signIn(emailController.text, passwordController.text);
     } on FirebaseAuthException catch (err) {
       if (!context.mounted) return;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/my-button.dart';
+import 'package:tic_tac_toe/my_button.dart';
 
 class MyRow extends StatelessWidget {
   final List<String> rowLabels;

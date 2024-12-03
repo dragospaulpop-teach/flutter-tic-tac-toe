@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/my-row.dart';
+import 'package:tic_tac_toe/my_row.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
