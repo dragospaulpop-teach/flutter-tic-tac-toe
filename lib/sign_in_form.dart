@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tic_tac_toe/app_bar.dart';
 import 'package:tic_tac_toe/auth_notifier.dart';
 
 class SignInForm extends StatefulWidget {
@@ -66,9 +67,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('TIC TAC TOE URA 2024 - LOGIN'),
-        ),
+        appBar: const CustomAppBar(title: 'TIC TAC TOE URA 2024 - LOGIN'),
         body: Center(
           child: Card(
             elevation: 10,
