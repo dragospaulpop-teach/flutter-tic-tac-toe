@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/app_bar.dart';
+import 'package:tic_tac_toe/app_drawer.dart';
 import 'package:tic_tac_toe/my_row.dart';
 
 class GameScreen extends StatefulWidget {
@@ -105,18 +105,13 @@ class _GameScreenState extends State<GameScreen> {
     return false;
   }
 
-  void logout() {
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'TIC TAC TOE URA 2024 - GAME'),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
-          ElevatedButton(
-              onPressed: () => logout(), child: const Text("logout")),
           Text(
             "Current player : $currentPlayer",
             style: Theme.of(context).textTheme.displayLarge?.copyWith(

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tic_tac_toe/auth_notifier.dart';
 import 'package:tic_tac_toe/game_screen.dart';
 import 'package:tic_tac_toe/home_screen.dart';
+import 'package:tic_tac_toe/profile.dart';
 import 'package:tic_tac_toe/sign_in_form.dart';
 import 'package:tic_tac_toe/sign_up_form.dart';
 import 'package:tic_tac_toe/theme_notifier.dart';
@@ -95,6 +96,7 @@ class _MainAppState extends State<MainApp> {
             '/login': (context) => const SignInForm(),
             '/register': (context) => SignUpForm(),
             '/game': (context) => const GameScreen(),
+            '/profile': (context) => const Profile(),
           });
     });
   }
